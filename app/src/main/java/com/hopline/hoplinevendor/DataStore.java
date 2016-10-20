@@ -36,5 +36,15 @@ public class DataStore {
     public static synchronized void setReadyOrders(List<OrderVo> readyOrders) {
         DataStore.readyOrders = readyOrders;
     }
+
+
+    public static synchronized void loadEverythingFromServer() throws  Exception{
+
+        setConformationOrders(FetchDataFromServer.retrieveOrderForConformation());
+        setPreparingOrders(FetchDataFromServer.retrievePreparingOrders());
+        setReadyOrders(FetchDataFromServer.retrieveReadyOrders());
+
+
+    }
 }
 
