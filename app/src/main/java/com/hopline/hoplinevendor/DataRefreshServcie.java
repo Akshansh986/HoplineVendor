@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +36,13 @@ public class DataRefreshServcie extends Service {
         return START_STICKY;
     }
 
+    private static volatile boolean locallyUpdated;
+
+
+    
+
+
+
 
     private void startOrderForConformationRefresh() {
 
@@ -56,7 +61,7 @@ public class DataRefreshServcie extends Service {
                         }
 
                         Log.d("servcie", "Going to refresh Conformation List");
-                        List<OrderVo> serverOrders = FetchDataFromServer.retrieveOrderForConformation();
+                        List<OrderVo> serverOrders = ServerHelper.retrieveOrderForConformation();
 
                         List<OrderVo> localOrders = DataStore.getConformationOrders();
 

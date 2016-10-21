@@ -40,9 +40,9 @@ public class DataStore {
 
     public static synchronized void loadEverythingFromServer() throws  Exception{
 
-        setConformationOrders(FetchDataFromServer.retrieveOrderForConformation());
-        setPreparingOrders(FetchDataFromServer.retrievePreparingOrders());
-        setReadyOrders(FetchDataFromServer.retrieveReadyOrders());
+        setConformationOrders(ServerHelper.retrieveOrderForConformation());
+        setPreparingOrders(ServerHelper.retrievePreparingOrders());
+        setReadyOrders(ServerHelper.retrieveReadyOrders());
 
 
     }

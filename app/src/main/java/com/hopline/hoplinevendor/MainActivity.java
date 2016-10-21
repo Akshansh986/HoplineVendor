@@ -18,6 +18,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     Activity myAct ;
@@ -59,6 +62,62 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private class CancelOrder extends AsyncTask<String, Void, String> {
+        ProgressDialog dialog;
+        Integer orderId;
+        String cancelReason;
+
+        CancelOrder(Integer orderId, String cancelReason){
+            this.orderId = orderId;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return  ServerHelper.markOrderCancel(orderId,cancelReason) ? "success" : "failure";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (dialog != null)
+                dialog.dismiss();
+
+            if (result.equals("failure")) {
+                Toast.makeText(myAct,"Error communicating with server!", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            //TODO: start from here.
+
+            OrderVo deletedOrder = new OrderVo();
+            deletedOrder.setIdorder(orderId);
+
+            List<OrderVo> localOrderCopy = new ArrayList<OrderVo>(DataStore.getConformationOrders());
+
+            localOrderCopy.remove(deletedOrder);
+
+
+
+
+
+
+
+            Intent intent = new Intent(myAct, DataRefreshServcie.class);
+            startService(intent);
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog = new ProgressDialog(myAct); // this = YourActivity
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setMessage("Loading. Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+
+        }
+    }
 
 
     private class InitialiseDataFromServer extends AsyncTask<String, Void, String> {

@@ -6,6 +6,15 @@ package com.hopline.hoplinevendor;
 
 public class DummyModel {
     private FetchOrderTo fetchOrder;
+    private OrderStatusTo orderStatus;
+
+    public OrderStatusTo getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatusTo orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
     public FetchOrderTo getFetchOrder() {
         return fetchOrder;
